@@ -46,13 +46,13 @@
 
     msg.addEventListener('start', () => {
       // Stop listening while speaking
-      recognition.start();
+      recognition.stop();
       text.textContent = "...";
     });
 
     msg.addEventListener('end', () => {
       // Continue listening after speaking is done
-      recognition.stop();
+      recognition.start();
       text.textContent = "Listening...";
     });
 
