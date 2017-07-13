@@ -39,18 +39,18 @@
       processSpeech(msg, resultArray[0][0].transcript);
     });
 
-    // Start listening again on end of recognition
-    // recognition.addEventListener('end', recognition.start);
     recognition.start();
+
+    // Start again if the recognition ever ends
+    recognition.addEventListener('end', recognition.start);
 
     msg.addEventListener('start', () => {
       // Stop listening while speaking
-      recognition.stop();
       text.textContent = "...";
     });
+
     msg.addEventListener('end', () => {
       // Continue listening after speaking is done
-      recognition.start();
       text.textContent = "Listening...";
     });
 

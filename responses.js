@@ -7,7 +7,6 @@ function processSpeech(msg, transcript = "") {
   const yourName = new RegExp(/your name/i);
   const censored = new RegExp(/(\*\*)/i);
   const myName = new RegExp(/^my name is \w+/i);
-  const fireball = new RegExp(/top selling/);
 
   switch (true) {
     case sayHi.test(transcript):
@@ -26,11 +25,8 @@ function processSpeech(msg, transcript = "") {
     case censored.test(transcript):
       msg.text = "That wasn't very nice.";
       break;
-    case fireball.test(transcript):
-      msg.text = "Fireball is our top selling product.";
-      break;
     default:
-      msg.text = "Sorry. I didn't understand that.";
+      msg.text = "";
   }
 
   console.log("Your Input:", transcript);
