@@ -2,28 +2,31 @@ function processSpeech(msg, transcript = "") {
 
   msg.text = "";
 
-  // Saying hello
-  if (transcript.match(/^(hello|hey|hi)/i)) {
-    msg.text = "Hey ";
+  const sayHi = new RegExp(/^(hello|hey|hi)/i);
+  const howAreYou = new RegExp(/how are you/i);
+  const yourName = new RegExp(/your name/i);
+  const censored = new RegExp(/(\*\*)/i);
+
+  switch (true) {
+    case sayHi.test(transcript):
+      msg.text = "Hey!";
+      break;
+    case howAreYou.test(transcript):
+      msg.text = "I'm doing great! What about you?";
+      break;
+    case yourName.test(transcript):
+      msg.text = "My name is Hal. What is yours?";
+      break;
+    case censored.test(transcript):
+      msg.text = "That wasn't very nice.";
+      break;
+    default:
+      msg.text = "Sorry. I didn't understand that.";
   }
-
-  if (transcript.match(/how are you/i)) {
-    msg.text = "I'm doing great! What about you? ";
-  }
-
-  if (transcript.match(/your name/i)) {
-    msg.text = "My name is Hal. What is yours? ";
-  }
-
-  if (transcript.match(/(\*\*)/i)) {
-    msg.text = "That wasn't very nice ";
-  }
-
-  if (!msg.text) msg.text = "Sorry. I didn't understand that.";
-
-  speechSynthesis.speak(msg);
 
   console.log("Your Input:", transcript);
   console.log("Response:", msg.text);
+
+  speechSynthesis.speak(msg);
 
 }
