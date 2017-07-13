@@ -15,11 +15,13 @@ function processSpeech(msg, transcript = "") {
     msg.text = "My name is Hal. What is yours? ";
   }
 
-  if (transcript.match(/(f\*\*\*|suck)/i)) {
+  if (transcript.match(/(\*\*)/i)) {
     msg.text = "That wasn't very nice ";
   }
 
-  speechSynthesis.speak(msg || "I didn't understand that.");
+  if (!msg.text) msg.text = "Sorry. I didn't understand that.";
+
+  speechSynthesis.speak(msg);
 
   console.log("Your Input:", transcript);
   console.log("Response:", msg.text);
