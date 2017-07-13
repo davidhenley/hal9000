@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Woof</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="hero">
+    <img src="hal.png" />
+    <p>
+      Listening...
+    </p>
+  </div>
+  <script src="responses.js"></script>
+  <script>
+    // Grab elements
+    const text = document.querySelector('p');
+
+    // Set up speech utterance
+    const msg = new SpeechSynthesisUtterance();
+
+    // Crossbrowser code
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    // Get new instance of Recognition
+    const recognition = new SpeechRecognition();
+
+    // Deal with recognition data
+    recognition.addEventListener('result', (e) => {
+      resultArray = Array.from(e.results);
+      // If the result is not final then don't do anything
+      if (!resultArray[0].isFinal) return;
+
+      // Process the first transcript
+      processSpeech(msg, resultArray[0][0].transcript);
+    });
+
+    // Start listening again on end of recognition
+    // recognition.addEventListener('end', recognition.start);
+    recognition.start();
+
+    msg.addEventListener('start', () => {
+      // Stop listening while speaking
+      console.log('Stopping listening');
+      recognition.stop();
+      text.textContent = "...";
+    });
+    msg.addEventListener('end', () => {
+      // Continue listening after speaking is done
+      console.log('Starting listening');
+      recognition.start();
+      text.textContent = "Listening...";
+    });
+
+  </script>
+</body>
+</html>
